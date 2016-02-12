@@ -6,6 +6,7 @@
 package view;
 
 import controller.Controller;
+import java.util.LinkedList;
 import java.util.Scanner;
 import java.util.Set;
 import model.Department;
@@ -24,20 +25,20 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         controller.Controller ctr = new Controller();
         ClassSelector executor = null;
+        LinkedList nowObject = ctr.nowObject;
         while (num != 0) {
-            if (ctr.nowObject instanceof Hospital) {
-                executor = new HospitalSelector();
-            }
-            if (ctr.getModel().hospitals == null) {
+            if (nowObject.isEmpty()||ctr.getModel().hospitals == null) {
                 executor = new ModelSelector();
-            }
-            if (ctr.nowObject instanceof Department) {
+            } else if (nowObject.getLast() instanceof Hospital) {
+                executor = new HospitalSelector();
+            } else if (nowObject.getLast() instanceof Department) {
                 executor = new DepartmentSelector();
-            }
-            if (ctr.nowObject instanceof Employee) {
+            } else if (nowObject.getLast() instanceof Employee) {
                 executor = new EmployeeSelector();
             }
-            System.out.println("Текущий объект : "+ ctr.nowObject);
+            if (!nowObject.isEmpty()) {
+                System.out.println("Текущий объект : " + nowObject.getLast());
+            }
             executor.printMenu();
             System.out.println("    99: level up");
             System.out.println("    100: save model");

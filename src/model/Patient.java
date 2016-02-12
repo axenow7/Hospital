@@ -21,28 +21,32 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Patient {
 
     private long id;
+
     private String name;
     private String address;
     private String passport;
-    private Set<Visit> visits;
-    private Hospital hospital;
+//    private Set<Visit> visits;
+//    private Hospital hospital;
+    public void setId(long id) {
+        this.id = id;
+    }
 
-    public Patient(long id, String name, String address, String passport, Hospital hospital) {
+    public Patient(long id, String name, String address, String passport) {
         this.id = id;
         this.name = name;
         this.address = address;
         this.passport = passport;
-        this.hospital = hospital;
+//        this.hospital = hospital;
     }
 
-    @XmlTransient
-    public Hospital getHospital() {
-        return hospital;
-    }
-
-    public void setHospital(Hospital hospital) {
-        this.hospital = hospital;
-    }
+//    @XmlTransient
+//    public Hospital getHospital() {
+//        return hospital;
+//    }
+//
+//    public void setHospital(Hospital hospital) {
+//        this.hospital = hospital;
+//    }
 
     @Override
     public int hashCode() {
@@ -100,21 +104,26 @@ public class Patient {
         return passport;
     }
 
-    @XmlElementWrapper(name = "visits")
-    @XmlElements({
-        @XmlElement(name = "visit", type = Visit.class)
-    })
-    public Set<Visit> getVisits() {
-        return visits;
-    }
-    public void addVisit(Visit v){
-        if(visits==null){
-            visits = new HashSet<Visit>();
-        }
-        visits.add(v);
-    }
+//    @XmlElementWrapper(name = "visits")
+//    @XmlElements({
+//        @XmlElement(name = "visit", type = Visit.class)
+//    })
+//    public Set<Visit> getVisits() {
+//        return visits;
+//    }
+//    public void addVisit(Visit v){
+//        if(visits==null){
+//            visits = new HashSet<Visit>();
+//        }
+//        visits.add(v);
+//    }
 
     public Patient() {
+    }
+
+    @Override
+    public String toString() {
+        return "Patient["+this.id+"] name= " + this.name; //To change body of generated methods, choose Tools | Templates.
     }
     
 }

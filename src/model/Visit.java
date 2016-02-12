@@ -5,6 +5,7 @@
  */
 package model;
 
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
@@ -13,32 +14,34 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 public class Visit {
     private long id;
-    private Patient patient;
-    private Employee employee;
+
+    public void setId(long id) {
+        this.id = id;
+    }
+//    private Patient patient;
+//    private Employee employee;
     public Visit(long id, Patient p, Employee e){
         this.id=id;
-        this.patient=p;
-        this.employee=e;
+//        this.patient=p;
+//        this.employee=e;
     }
-    public void setPatient(Patient patient) {
-        this.patient = patient;
-    }
-
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
-    }
+//    public void setPatient(Patient patient) {
+//        this.patient = patient;
+//    }
+//
+//    public void setEmployee(Employee employee) {
+//        this.employee = employee;
+//    }
 
     public long getId() {
         return id;
     }
-    @XmlTransient
-    public Patient getPatient() {
-        return patient;
-    }
-
-    public Employee getEmployee() {
-        return employee;
-    }
+//    public Patient getPatient() {
+//        return patient;
+//    }
+//    public Employee getEmployee() {
+//        return employee;
+//    }
 
     @Override
     public int hashCode() {
@@ -64,7 +67,7 @@ public class Visit {
 
     @Override
     public String toString() {
-        return "Visit["  + id + "] , patient=" + patient + ", employee=" + employee ;
+        return "Visit["  + id + "]" /*, patient=" + patient + ", employee=" + employee*/ ;
     }
 
     public Visit() {

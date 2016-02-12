@@ -21,7 +21,7 @@ public class Position {
     private String name;
     private Set<Employee> employees;
     private long id;
-    private Department department;
+//    private Department department;
 
     public Position() {
     }
@@ -56,7 +56,7 @@ public class Position {
     public Position(long id, String name, Department department, int freeCount) {
         this.id = id;
         this.name = name;
-        this.department = department;
+//        this.department = department;
         this.freeCount = freeCount;
         department.addPosition(this);
     }
@@ -109,9 +109,9 @@ public class Position {
     public long getId() {
         return id;
     }
-    @XmlTransient
-    public Department getDepartment() {
-        return department;
-    }
+//    @XmlTransient
+//    public Department getDepartment() {
+//        return department;
+//    }
 
 }

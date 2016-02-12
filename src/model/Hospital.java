@@ -33,6 +33,10 @@ public class Hospital {
     private Map<Position, Integer> positions;
     private Set<Patient> patients;
 
+    public void setPatients(Set<Patient> patients) {
+        this.patients = patients;
+    }
+
     @XmlElementWrapper(name = "patients")
     @XmlElements({
         @XmlElement(name = "Patient", type = Patient.class)
@@ -42,7 +46,7 @@ public class Hospital {
     }
 
     public void addPatient(String name, String address, String passport, long id) {
-        Patient p = new Patient(id, name, address, passport, this);
+        Patient p = new Patient(id, name, address, passport);
         if (patients == null) {
             patients = new HashSet<Patient>();
         }

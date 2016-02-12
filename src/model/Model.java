@@ -8,6 +8,7 @@ package model;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.Set;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
@@ -33,48 +34,47 @@ public class Model {
     private IDGenerator gen = IDGenerator.getIDGeneretor();
 //    public int 
 
-    public Object addPatient(String name, String address, String passport, Object nowObject) throws Exception {
-        Hospital h = (Hospital) getHospitalFromObject(nowObject);
+    public Object addPatient(String name, String address, String passport, LinkedList nowObject) throws Exception {
+        Hospital h = (Hospital) (nowObject).get(0);
         h.addPatient(name, address, passport, gen.getID());
-        return nowObject;
+        return nowObject.get(0);
     }
 
-    public Set<Patient> getPatients(Object nowObject) {
-        return ((Hospital) nowObject).getPatients();
+    public Set<Patient> getPatients(LinkedList nowObject) {
+        return ((Hospital) nowObject.get(0)).getPatients();
     }
 
-    public Object addPosition(String name, int freeCount, Object nowObject) throws Exception {
-        Department d = getDepartmentFromObject(nowObject);
+    public Object addPosition(String name, int freeCount, LinkedList nowObject) throws Exception {
+        Department d = (Department)nowObject.get(1);
         Position p = new Position(gen.getID(), name, d, freeCount);
         return d;
     }
 
-    public Object removePosition(String name, Object nowObject) throws Exception {
-        Department d = getDepartmentFromObject(nowObject);
-        d.removePosition(getPositionByName(name, nowObject));
+    public Object removePosition(String name, LinkedList nowObject) throws Exception {
+        Department d = (Department)(nowObject).get(1);
+        d.removePosition(getPositionByName(name, d));
         return d;
     }
 
-    public Object addEmployee(String name, double salary, String position, Object nowObject) throws Exception {
-        Department d = getDepartmentFromObject(nowObject);
-        Employee e = new Employee(name, d, gen.getID(), getPositionByName(name, nowObject), salary);
-//        d.addEmployee(e, getPositionByName(name, nowObject));
+    public Object addEmployee(String name, double salary, String position, LinkedList nowObject) throws Exception {
+        Department d = (Department)(nowObject).get(1);
+        Employee e = new Employee(name, d, gen.getID(), getPositionByName(name, d), salary);
         return e;
     }
 
-    public Object removeEmployee(String name, Object nowObject) throws Exception {
-        Department d = getDepartmentFromObject(nowObject);
-        d.removeEmployee(getEmployeeByName(name, nowObject));
+    public Object removeEmployee(String name, LinkedList nowObject) throws Exception {
+        Department d = (Department)(nowObject).get(1);
+        d.removeEmployee(getEmployeeByName(name, d));
         return d;
     }
 
-    public Set<Employee> getEmployees(Object nowObject) throws Exception {
-        Department d = getDepartmentFromObject(nowObject);
+    public Set<Employee> getEmployees(LinkedList nowObject) throws Exception {
+        Department d = (Department) nowObject.get(1);
         return d.getEmployees();
     }
 
-    public Employee getEmployeeByName(String name, Object nowObject) throws Exception {
-        Department d = getDepartmentFromObject(nowObject);
+    public Employee getEmployeeByName(String name, Department nowObject) throws Exception {
+        Department d = nowObject;
         for (Employee e : d.getEmployees()) {
             if (e.getName().equals(name)) {
                 return e;
@@ -83,8 +83,8 @@ public class Model {
         return null;
     }
 
-    public Position getPositionByName(String name, Object nowObject) throws Exception {
-        Department d = getDepartmentFromObject(nowObject);
+    public Position getPositionByName(String name, Department nowObject) throws Exception {
+        Department d = nowObject;
         for (Position p : d.getPositions().keySet()) {
             if (p.getName().equals(name)) {
                 return p;
@@ -93,13 +93,8 @@ public class Model {
         throw new Exception("Position with name: " + name + " not found");
     }
 
-    public Set<Position> getPositions(Object nowObject) throws Exception {
-        Department d = null;
-        if (nowObject instanceof Department) {
-            d = (Department) nowObject;
-        } else if (nowObject instanceof Position) {
-            d = ((Position) nowObject).getDepartment();
-        }
+    public Set<Position> getPositions(LinkedList nowObject) throws Exception {
+        Department d = (Department) nowObject.get(1);
         if (d == null) {
             throw new Exception("Can't get position");
         }
@@ -110,21 +105,20 @@ public class Model {
         return hospitals;
     }
 
-    public Set<Department> getDepartments(Object nowObject) throws Exception {
-        Hospital h = getHospitalFromObject(nowObject);
+    public Set<Department> getDepartments(LinkedList nowObject) throws Exception {
+        Hospital h = (Hospital) nowObject.get(0);
         return h.getDepartments();
     }
 
-    public Object addDepartment(String name, Object nowObject) throws Exception {
-        Hospital h = getHospitalFromObject(nowObject);
+    public Object addDepartment(String name, LinkedList nowObject) throws Exception {
+        Hospital h = (Hospital) (nowObject).get(0);
         Department d = new Department(gen.getID(), name, h);
         h.addDepartment(d);
-        nowObject = d;
-        return nowObject;
+        return d;
     }
 
-    public Patient getPatientByName(String name, Object nowObject) throws Exception {
-        Hospital h = getHospitalFromObject(nowObject);
+    public Patient getPatientByName(String name, LinkedList nowObject) throws Exception {
+        Hospital h = (Hospital)nowObject.get(0);
         if (h.getPatients().size() > 0) {
             for (Patient p : h.getPatients()) {
                 if (p.getName().equals(name)) {
@@ -135,70 +129,65 @@ public class Model {
         throw new Exception("Patient with name " + name + " not found");
     }
 
-    public Object addVisit(String pName, Object nowObject) throws Exception {
-        Employee e = (Employee) nowObject;
+    public Object addVisit(String pName, LinkedList nowObject) throws Exception {
+        Employee e = (Employee) nowObject.get(2);
         Patient p = getPatientByName(pName, nowObject);
 //        Visit v = new Visit(gen.getID(), p, e);
         e.addVisit(gen.getID(), p);
 //        nowObject = v;
-        return nowObject;
+        return nowObject.get(2);
     }
 
-    public Hospital getHospitalFromObject(Object nowObject) throws Exception {
-        Hospital now;
-        if (nowObject instanceof Hospital) {
-            now = (Hospital) nowObject;
-        } else if (nowObject instanceof Department) {
-            now = ((Department) nowObject).getHospital();
-        } else if (nowObject instanceof Position) {
-            now = ((Position) nowObject).getDepartment().getHospital();
-        } else if (nowObject instanceof Employee) {
-            now = ((Employee) nowObject).getDepartment().getHospital();
-        } else {
-            throw new Exception("Can't choose hospital, get up");
-        }
-        return now;
-    }
+//    public Hospital getHospitalFromObject(Object nowObject) throws Exception {
+//        Hospital now;
+//        if (nowObject instanceof Hospital) {
+//            now = (Hospital) nowObject;
+//        } else if (nowObject instanceof Department) {
+//            now = ((Department) nowObject).getHospital();
+//        } else if (nowObject instanceof Position) {
+//            now = ((Position) nowObject).getDepartment().getHospital();
+//        } else if (nowObject instanceof Employee) {
+//            now = ((Employee) nowObject).getDepartment().getHospital();
+//        } else {
+//            throw new Exception("Can't choose hospital, get up");
+//        }
+//        return now;
+//    }
 
-    public Object levelUp(Object nowObject) {
-        Object now = nowObject;
-        if (nowObject instanceof Department) {
-            now = ((Department) nowObject).getHospital();
+//    public Object levelUp(Object nowObject) {
+//        Object now = nowObject;
+//        if (nowObject instanceof Department) {
+//            now = ((Department) nowObject).getHospital();
+////        } else if (nowObject instanceof Position) {
+////            now = ((Position) nowObject).getDepartment();
+//        } else if (nowObject instanceof Employee) {
+//            now = ((Employee) nowObject).getDepartment();
+//        } else if (nowObject instanceof Visit) {
+//            now = ((Visit) nowObject).getEmployee();
+//        }
+//        return now;
+//    }
+
+//    public Department getDepartmentFromObject(Object nowObject) throws Exception {
+//        Department now;
+//        if (nowObject instanceof Hospital) {
+//            throw new Exception("Can't get Department");
+//        } else if (nowObject instanceof Department) {
+//            now = (Department) nowObject;
 //        } else if (nowObject instanceof Position) {
 //            now = ((Position) nowObject).getDepartment();
-        } else if (nowObject instanceof Employee) {
-            now = ((Employee) nowObject).getDepartment();
-        } else if (nowObject instanceof Visit) {
-            now = ((Visit) nowObject).getEmployee();
-        }
-        return now;
-    }
+//        } else if (nowObject instanceof Employee) {
+//            now = ((Employee) nowObject).getDepartment();
+//        } else {
+//            throw new Exception("Can't get Department");
+//        }
+//        return now;
+//    }
 
-    public Department getDepartmentFromObject(Object nowObject) throws Exception {
-        Department now;
-        if (nowObject instanceof Hospital) {
-            throw new Exception("Can't get Department");
-        } else if (nowObject instanceof Department) {
-            now = (Department) nowObject;
-        } else if (nowObject instanceof Position) {
-            now = ((Position) nowObject).getDepartment();
-        } else if (nowObject instanceof Employee) {
-            now = ((Employee) nowObject).getDepartment();
-        } else {
-            throw new Exception("Can't get Department");
-        }
+    public Object removeDepartment(String name, LinkedList nowObject) throws Exception {
+        Hospital now = (Hospital) nowObject.get(0);
+        now.removeDepartment(now.getDepartmentByName(name));
         return now;
-    }
-
-    public Object removeDepartment(String name, Object nowObject) throws Exception {
-        Hospital now = getHospitalFromObject(nowObject);
-        if (nowObject.equals(now.getDepartmentByName(name))) {
-            now.removeDepartment(now.getDepartmentByName(name));
-            nowObject = now.getDepartments().toArray()[0];
-        } else {
-            now.removeDepartment(now.getDepartmentByName(name));
-        }
-        return nowObject;
     }
 
     public Object addHospital(String name, String INN, String date) throws Exception {
@@ -213,8 +202,7 @@ public class Model {
             throw new Exception("This hospital already exists");
         } else {
             hospitals.add(h1);
-            Object nowObject = h1;
-            return nowObject;
+            return h1;
         }
     }
 
@@ -227,13 +215,15 @@ public class Model {
         throw new Exception("Hospital with name: " + name + " not exists");
     }
 
-    public Object removeHospital(String name, Object nowObject) throws Exception {
+    public Object removeHospital(String name, LinkedList nowObject) throws Exception {
+        Hospital now = (Hospital) (nowObject).get(0);
         if (hospitals.size() == 1) {
             throw new Exception("Can't delete last hospital");
         }
-        if (nowObject.equals(this.getHospitalByName(name))) {
+        if (now.equals(this.getHospitalByName(name))) {
             hospitals.remove(getHospitalByName(name));
-            nowObject = (Hospital) hospitals.toArray()[0];
+            nowObject.clear();
+             nowObject.add(hospitals.toArray()[0]);
             System.out.println("Hospital has been removed succesful");
         } else {
             hospitals.remove(getHospitalByName(name));
@@ -242,8 +232,8 @@ public class Model {
         return nowObject;
     }
 
-    public Object chooseEmployee(String name, Object nowObject) throws Exception {
-        Department d = (Department) nowObject;
+    public Object chooseEmployee(String name, LinkedList nowObject) throws Exception {
+        Department d = (Department) nowObject.get(1);
         for (Employee e : d.getEmployees()) {
             if (e.getName().equals(name)) {
                 return e;
@@ -252,20 +242,18 @@ public class Model {
         throw new Exception("Employee with name " + name + " not found in this department");
     }
 
-    public Object chooseDepartment(String name, Object nowObject) throws Exception {
-        Hospital now = getHospitalFromObject(nowObject);
+    public Object chooseDepartment(String name, LinkedList nowObject) throws Exception {
+        Hospital now = (Hospital)(nowObject).get(0);
 
         if (now.getDepartmentByName(name) == null) {
             throw new Exception("Department with name: " + name + " not found");
         }
-        nowObject = now.getDepartmentByName(name);
-        return nowObject;
+        return now.getDepartmentByName(name);
     }
 
-    public Object chooseHospital(String name, Object nowObject) throws Exception {
+    public Object chooseHospital(String name, LinkedList nowObject) throws Exception {
 //        if (nowObject instanceof Hospital) {
-        nowObject = this.getHospitalByName(name);
-        return nowObject;
+        return this.getHospitalByName(name);
 
 //        } else {
 //            throw new Exception("Can't choose hospital. Please, get up");

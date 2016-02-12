@@ -25,7 +25,7 @@ public class Department {
 
     private long id;
     private String name;
-    private Hospital hospital;
+//    private Hospital hospital;
     private Set<Employee> employees;
     private Map<Position, Integer> positions;
 
@@ -62,7 +62,7 @@ public class Department {
     public Department(long id, String name, Hospital hospital) {
         this.id = id;
         this.name = name;
-        this.hospital = hospital;
+//        this.hospital = hospital;
     }
 
     public void addPosition(Position e) {
@@ -160,10 +160,10 @@ public class Department {
         return name;
     }
 
-    @XmlTransient
-    public Hospital getHospital() {
-        return hospital;
-    }
+//    @XmlTransient
+//    public Hospital getHospital() {
+//        return hospital;
+//    }
 
     @XmlElementWrapper(name = "employees")
     @XmlElements({
@@ -176,10 +176,10 @@ public class Department {
     public void setName(String name) {
         this.name = name;
     }
-
-    public void setHospital(Hospital hospital) {
-        this.hospital = hospital;
-    }
+//
+//    public void setHospital(Hospital hospital) {
+//        this.hospital = hospital;
+//    }
 
     public void setEmployees(Set<Employee> employees) {
         this.employees = employees;

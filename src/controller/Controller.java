@@ -8,6 +8,7 @@ package controller;
 import model.IDGenerator;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,18 +24,22 @@ import model.Position;
  * @author Александр
  */
 public class Controller {
-    public Object nowObject;
+    public LinkedList nowObject = new LinkedList();
 //    private static final IDGenerator gen = IDGenerator.getIDGeneretor();
     private static Model model = new Model();
     public void levelUp(){
-        nowObject = model.levelUp(nowObject);
+//        nowObject = model.levelUp(nowObject);
+        if(nowObject.size()!=1){
+            nowObject.removeLast();
+//            nowObject.getLast();
+        }
     }
     public void saveModel(String path){
         model.saveModel(path);
     }
     public void loadModel(String path){
         this.model = model.loadModel(path);
-        nowObject=model.hospitals.toArray()[0];
+        nowObject.add(model.hospitals.toArray()[0]);
     }
     public void addVisit(String name) throws Exception{
         model.addVisit(name, nowObject);
@@ -43,31 +48,28 @@ public class Controller {
         return nowObject;
     }
 
-    public void setNowObject(Object nowObject) {
+    public void setNowObject(LinkedList nowObject) {
         this.nowObject = nowObject;
     }
-
 
     public static Model getModel() {
         return model;
     }
     
     public void chooseEmployee(String name) throws Exception{
-        nowObject = model.chooseEmployee(name, nowObject);
+        nowObject.add(model.chooseEmployee(name, nowObject));
     }
     public void chooseHospital(String name) throws Exception {
-        nowObject = model.chooseHospital(name, nowObject);
+        nowObject.clear();
+        nowObject.add(model.chooseHospital(name, nowObject));
     }
 
     public void chooseDepartment(String name) throws Exception {
-        nowObject = model.chooseDepartment(name, nowObject);
+        nowObject.add(model.chooseDepartment(name, nowObject));
     }
 
     public Set<Hospital> getHospitals() {
         return model.getHospitals();
-//        for (Hospital h : model.hospitals) {
-//            System.out.println(h.toString());
-//        }
     }
 
     public Set<Department> getDepartments() throws Exception {
@@ -97,15 +99,15 @@ public class Controller {
 //        check parametr
 //        in model
 //        genid in model
-        nowObject = model.addHospital(name, INN, date);
+        nowObject.add(model.addHospital(name, INN, date));
     }
 
     public void removeHospital(String name) throws Exception {
-        nowObject = model.removeHospital(name, nowObject);
+        nowObject = (LinkedList)model.removeHospital(name, nowObject);
     }
 
     public void addDepartment(String name) throws Exception {
-        nowObject = model.addDepartment(name, nowObject);
+        nowObject.add(model.addDepartment(name, nowObject));
 //        Department d = new Department(gen.getID(), name, model.nowHospital);
 //        model.nowHospital.addDepartment(d);
 //        model.nowDepartment = d;
@@ -116,19 +118,19 @@ public class Controller {
      * @param name
      */
     public void removeDepartment(String name) throws Exception {
-        nowObject = model.removeDepartment(name, nowObject);
+        model.removeDepartment(name, nowObject);
     }
 
     public void addPosition(String name, int freeCount) throws Exception {
-        nowObject = model.addPosition(name, freeCount, nowObject);
+        model.addPosition(name, freeCount, nowObject);
     }
     public void removePosition(String name) throws Exception{
-        nowObject = model.removePosition(name, nowObject);
+        model.removePosition(name, nowObject);
     }
     public void addEmployee(String name, double salary, String position) throws Exception {
-        nowObject = model.addEmployee(name, salary, position, nowObject);
+        nowObject.add(model.addEmployee(name, salary, position, nowObject));
     }
     public void removeEmployee(String name) throws Exception{
-        nowObject = model.removeEmployee(name, nowObject);
+        model.removeEmployee(name, nowObject);
     }
 }

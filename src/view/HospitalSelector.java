@@ -169,10 +169,14 @@ public class HospitalSelector implements ClassSelector {
                 }
                 break;
             case 10:
-                for (Patient p : ctr.getPatients()) {
-                    System.out.println(p.toString());
+                if (ctr.getPatients() != null) {
+                    for (Patient p : ctr.getPatients()) {
+                        System.out.println(p.toString());
+                    }
+                    break;
+                }else{
+                    System.out.println("Patients not found");
                 }
-                break;
         }
     }
 
