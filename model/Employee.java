@@ -44,13 +44,13 @@ public class Employee {
         this.visits = visits;
     }
 
-    public void addVisit(long id, Patient p) throws Exception {
+    public void addVisit(long id, Patient p) throws IllegalArgumentException, NullPointerException, ArrayIndexOutOfBoundsException {
         Visit v = new Visit(id, p, this);
         if (visits == null) {
             visits = new HashSet<Visit>();
         }
         if (visits.contains(v)) {
-            throw new Exception("Impossible to add this visit " + v);
+            throw new IllegalArgumentException("Impossible to add this visit " + v);
         }
         visits.add(v);
 //        p.addVisit(v);

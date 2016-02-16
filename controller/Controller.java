@@ -6,6 +6,8 @@
 package controller;
 
 import model.IDGenerator;
+
+import java.text.ParseException;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -41,7 +43,7 @@ public class Controller {
         this.model = model.loadModel(path);
         nowObject.add(model.hospitals.toArray()[0]);
     }
-    public void addVisit(String name) throws Exception{
+    public void addVisit(String name) throws NullPointerException{
         model.addVisit(name, nowObject);
     }
     public Object getNowObject() {
@@ -59,12 +61,17 @@ public class Controller {
     public void chooseEmployee(String name) throws Exception{
         nowObject.add(model.chooseEmployee(name, nowObject));
     }
-    public void chooseHospital(String name) throws Exception {
-        nowObject.clear();
-        nowObject.add(model.chooseHospital(name, nowObject));
+    public void chooseHospital(String name) throws NullPointerException {
+        if (model.chooseHospital(name, nowObject) == null){
+            throw new NullPointerException();
+        }
+        else {
+            nowObject.clear();
+            nowObject.add(model.chooseHospital(name, nowObject));
+        }
     }
 
-    public void chooseDepartment(String name) throws Exception {
+    public void chooseDepartment(String name) throws NullPointerException {
         nowObject.add(model.chooseDepartment(name, nowObject));
     }
 
@@ -72,11 +79,15 @@ public class Controller {
         return model.getHospitals();
     }
 
-    public Set<Department> getDepartments() throws Exception {
-        return model.getDepartments(nowObject);
+    public Set<Department> getDepartments() throws NullPointerException {
+        if (model.getDepartments(nowObject) == null){
+            throw new NullPointerException();
+        } else {
+            return model.getDepartments(nowObject);
 //        for (Department d : model.nowHospital.getDepartments()) {
 //            System.out.println(d.toString());
 //        }
+        }
     }
     public Set<Position> getPositions() throws Exception{
         return model.getPositions(nowObject);
@@ -87,7 +98,7 @@ public class Controller {
     public Set<Patient> getPatients(){
         return model.getPatients(nowObject);
     }
-    public void addPatient(String name, String address, String passport) throws Exception{
+    public void addPatient(String name, String address, String passport) throws ArrayIndexOutOfBoundsException, NullPointerException{
         model.addPatient(name, address, passport, nowObject);
     }
     public void addHospital(String name, String INN, String date) throws Exception {
@@ -102,11 +113,11 @@ public class Controller {
         nowObject.add(model.addHospital(name, INN, date));
     }
 
-    public void removeHospital(String name) throws Exception {
+    public void removeHospital(String name) throws ArrayIndexOutOfBoundsException {
         nowObject = (LinkedList)model.removeHospital(name, nowObject);
     }
 
-    public void addDepartment(String name) throws Exception {
+    public void addDepartment(String name) throws ArrayIndexOutOfBoundsException {
         nowObject.add(model.addDepartment(name, nowObject));
 //        Department d = new Department(gen.getID(), name, model.nowHospital);
 //        model.nowHospital.addDepartment(d);

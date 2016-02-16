@@ -44,11 +44,10 @@ public class DepartmentSelector implements ClassSelector {
                     ctr.addPosition(posName, freeCount);
                     System.out.println("Position was succesful added");
                 } catch (InputMismatchException ex){
-                    System.out.println(ex.toString());
                     System.out.println("Error. Enter integer value");
                 }
                 catch (Exception ex) {
-                    System.out.println(ex.getLocalizedMessage());
+                    System.out.println(ex);
                 }
                 break;
             case 2:
@@ -62,7 +61,7 @@ public class DepartmentSelector implements ClassSelector {
                         System.out.println(p.toString());
                     }
                 } catch (Exception ex) {
-                    System.out.println(ex.getLocalizedMessage());
+                    System.out.println(ex);
                 }
                 break;
             case 3:
@@ -90,9 +89,11 @@ public class DepartmentSelector implements ClassSelector {
                 } catch (NumberFormatException ex){
                     System.out.println(ex.getLocalizedMessage());
                     System.out.println("Error. Please, enter the integer or double value in the field \"Salary\"");
+                } catch (ArrayIndexOutOfBoundsException ex){
+                    System.out.println("Empty positions " + positName + " not found");
                 }
                 catch (Exception ex) {
-                    System.out.println(ex.getLocalizedMessage());
+                    System.out.println(ex);
                 }
                 break;
             case 5:
@@ -106,7 +107,7 @@ public class DepartmentSelector implements ClassSelector {
                         System.out.println(e.toString());
                     }
                 } catch (Exception ex) {
-                    System.out.println(ex.getLocalizedMessage());
+                    System.out.println(ex);
                 }
                 break;
             case 6:
@@ -116,7 +117,7 @@ public class DepartmentSelector implements ClassSelector {
                     ctr.removeEmployee(empNameDel);
                     System.out.println("Employee was succesful deleted");
                 } catch (Exception ex) {
-                    System.out.println(ex.getLocalizedMessage());
+                    System.out.println(ex);
                 }
                 break;
             case 7:
@@ -125,7 +126,7 @@ public class DepartmentSelector implements ClassSelector {
                 try {
                     ctr.chooseEmployee(empNameChoose);
                 } catch (Exception ex) {
-                    System.out.println(ex.getLocalizedMessage());
+                    System.out.println(ex);
                 }
                 break;
         }

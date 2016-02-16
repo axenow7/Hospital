@@ -50,7 +50,7 @@ public class Position {
 
     @Override
     public String toString() {
-        return "Position["+this.getId()+"] name = "+this.getName() + "count = "+this.freeCount; //To change body of generated methods, choose Tools | Templates.
+        return "Position["+this.getId()+"] name = "+this.getName() + ", count = "+this.freeCount; //To change body of generated methods, choose Tools | Templates.
     }
 
     public Position(long id, String name, Department department, int freeCount) {

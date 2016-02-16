@@ -42,18 +42,15 @@ public class ModelSelector implements ClassSelector {
                         System.out.println("Hospital with name = " + name + " was added");
                         break;
                     } catch (ParseException ex){
-                        System.out.println(ex.getLocalizedMessage());
                         System.out.println("Date entering error. Please, enter the date in format \"dd-mm-yyyy\". For cancel press 1");
                         date = sc.next();
                         if (date.equals("1")){
                             System.out.println("Adding is cancelled");
                             break;
                         }
-                        
                         continue;
                     }
                     catch (Exception ex) {
-                        System.out.println(ex.getLocalizedMessage());
                         System.out.println("Hospital creating error. Press 1 to retry, otherwise press any another key ");
                         if (sc.next().equals("1")){
                             System.out.print("Name: ");
