@@ -40,15 +40,14 @@ public class EmployeeSelector implements ClassSelector {
                         String passport = sc.next();
                         try {
                             ctr.addPatient(name, address, passport);
-                        } catch (ArrayIndexOutOfBoundsException ex1){
+                        } catch (ArrayIndexOutOfBoundsException ex1) {
                             System.out.println("Error. Too long name of patient");
-                        }
-                        catch (Exception ex1) {
-                            System.out.println(ex1);
+                        } catch (Exception ex1) {
+                            System.out.println("Impossible to add parient");
+//                            System.out.println(ex1);
                         }
                         break;
-                    }
-                    else {
+                    } else {
                         System.out.println("Canceled");
                         break;
                     }

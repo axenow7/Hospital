@@ -68,7 +68,7 @@ public class Hospital {
 
     @Override
     public String toString() {
-        return "Hospital[" + this.getId() + "], name = " + this.getName(); //To change body of generated methods, choose Tools | Templates.
+        return "Hospital[" + this.getId() + "], name = " + this.getName() + " date= "+ this.dateCreate; //To change body of generated methods, choose Tools | Templates.
     }
 
     public Department getDepartmentByName(String name) {
@@ -143,9 +143,9 @@ public class Hospital {
         departments.add(d);
     }
 
-    public void removeDepartment(Department d) throws NoSuchFieldException {
+    public void removeDepartment(Department d) throws NullPointerException,NoSuchFieldException {
         if (departments == null) {
-            throw new NullPointerException("The hospital has no departments!");
+            throw new NullPointerException();
         }
         if (!departments.contains(d)) {
             throw new NoSuchFieldException("The department was not found");

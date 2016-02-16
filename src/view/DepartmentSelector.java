@@ -43,10 +43,9 @@ public class DepartmentSelector implements ClassSelector {
                     freeCount = sc.nextInt();
                     ctr.addPosition(posName, freeCount);
                     System.out.println("Position was succesful added");
-                } catch (InputMismatchException ex){
+                } catch (InputMismatchException ex) {
                     System.out.println("Error. Enter integer value");
-                }
-                catch (Exception ex) {
+                } catch (Exception ex) {
                     System.out.println(ex);
                 }
                 break;
@@ -54,14 +53,16 @@ public class DepartmentSelector implements ClassSelector {
                 try {
                     System.out.println("Positions : ");
                     for (Position p : ctr.getPositions()) {
-                        if(p == null){
+                        if (p == null) {
                             System.out.println("Positions not found");
                             break;
                         }
                         System.out.println(p.toString());
                     }
                 } catch (Exception ex) {
-                    System.out.println(ex);
+                    System.out.println("Impossible to view positions");
+
+//                    System.out.println(ex);
                 }
                 break;
             case 3:
@@ -71,7 +72,8 @@ public class DepartmentSelector implements ClassSelector {
                     ctr.removePosition(posDelName);
                     System.out.println("Position was succesful deleted");
                 } catch (Exception ex) {
-                    System.out.println(ex.getLocalizedMessage());
+                    System.out.println("Impossible to delete position "+posDelName);
+//                    System.out.println(ex.getLocalizedMessage());
                 }
                 break;
             case 4:
@@ -86,28 +88,29 @@ public class DepartmentSelector implements ClassSelector {
                     salary = Double.parseDouble(sal);
                     ctr.addEmployee(empName, salary, positName);
                     System.out.println("Employee was succesful added");
-                } catch (NumberFormatException ex){
-                    System.out.println(ex.getLocalizedMessage());
+                } catch (NumberFormatException ex) {
+//                    System.out.println(ex.getLocalizedMessage());
                     System.out.println("Error. Please, enter the integer or double value in the field \"Salary\"");
-                } catch (ArrayIndexOutOfBoundsException ex){
+                } catch (ArrayIndexOutOfBoundsException ex) {
                     System.out.println("Empty positions " + positName + " not found");
-                }
-                catch (Exception ex) {
-                    System.out.println(ex);
+                } catch (Exception ex) {
+                    System.out.println("Impossible to add employee");
+//                    System.out.println(ex);
                 }
                 break;
             case 5:
                 try {
                     System.out.println("Employyes : ");
                     for (Employee e : ctr.getEmployees()) {
-                        if(e == null){
+                        if (e == null) {
                             System.out.println("Employees not found");
                             break;
                         }
                         System.out.println(e.toString());
                     }
                 } catch (Exception ex) {
-                    System.out.println(ex);
+                    System.out.println("Impossible to view employees");
+//                    System.out.println(ex);
                 }
                 break;
             case 6:
@@ -117,7 +120,8 @@ public class DepartmentSelector implements ClassSelector {
                     ctr.removeEmployee(empNameDel);
                     System.out.println("Employee was succesful deleted");
                 } catch (Exception ex) {
-                    System.out.println(ex);
+                    System.out.println("Impossible to view departments");
+//                    System.out.println(ex);
                 }
                 break;
             case 7:
@@ -126,7 +130,8 @@ public class DepartmentSelector implements ClassSelector {
                 try {
                     ctr.chooseEmployee(empNameChoose);
                 } catch (Exception ex) {
-                    System.out.println(ex);
+                    System.out.println("Impossible to choose employee"+ empNameChoose);
+//                    System.out.println(ex);
                 }
                 break;
         }

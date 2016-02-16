@@ -50,19 +50,18 @@ public class HospitalSelector implements ClassSelector {
                         System.out.println("Hospital with name = " + name + " was added");
                         break;
                     } catch (ParseException ex) {
-                        System.out.println(ex);
+//                        System.out.println(ex);
                         System.out.println("Data entering error. Enter the date in format \"dd-mm-yyyy\". Press 1 to cancel");
                         date = sc.next();
                         if (date.equals("1")) {
                             System.out.println("Cancelled");
                             break;
                         }
-                        continue;
-                    } catch (IllegalArgumentException ex){
+//                        continue;
+                    } catch (IllegalArgumentException ex) {
                         System.out.println("This hospital already exists ");
                         break;
-                    }
-                    catch (Exception ex) {
+                    } catch (Exception ex) {
                         System.out.println("Creating hospital error. press 1 to retry, otherwise press any another key ");
                         if (sc.next().equals("1")) {
                             System.out.print("Name: ");
@@ -96,9 +95,9 @@ public class HospitalSelector implements ClassSelector {
 
                 } catch (NullPointerException ex) {
                     System.out.println("Hospital with name: " + n + " not exists");
-                }
-                catch (Exception ex) {
-                    System.out.println(ex);
+                } catch (Exception ex) {
+                    System.out.println("Impossible to choose hospital " + n);
+//                    System.out.println(ex);
 //                        Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 break;
@@ -109,13 +108,12 @@ public class HospitalSelector implements ClassSelector {
                 try {
                     ctr.removeHospital(remName);
                     System.out.println("Hospital with name = " + remName + " was deleted");
-                } catch (NullPointerException ex){
+                } catch (NullPointerException ex) {
                     System.out.println("Hospital with name " + remName + " not found");
-                } catch (ArrayIndexOutOfBoundsException ex){
+                } catch (ArrayIndexOutOfBoundsException ex) {
                     System.out.println("It have only one hospital. Cant delete last hospital");
-                }
-                catch (Exception ex) {
-                    System.out.println(ex);
+                } catch (Exception ex) {
+//                    System.out.println(ex);
                     System.out.println("Deleting hospital error. ");
                     break;
                 }
@@ -127,11 +125,10 @@ public class HospitalSelector implements ClassSelector {
                 try {
                     ctr.addDepartment(d);
                     System.out.println("Department with name = " + d + " was added");
-                } catch (ArrayIndexOutOfBoundsException ex){
+                } catch (ArrayIndexOutOfBoundsException ex) {
                     System.out.println("Error. Too long name of department");
-                }
-                catch (Exception ex) {
-                    System.out.println(ex);
+                } catch (Exception ex) {
+//                    System.out.println(ex);
                     System.out.println("Department adding error. Try again");
 //                    Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -146,8 +143,8 @@ public class HospitalSelector implements ClassSelector {
                 } catch (NullPointerException ex) {
                     System.out.println("Departments not found! ");
 //                        Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (Exception ex){
-                    System.out.println("Something wrong: " + ex);
+                } catch (Exception ex) {
+                    System.out.println("Impossible to view departments");
                 }
                 break;
             case 7:
@@ -156,11 +153,12 @@ public class HospitalSelector implements ClassSelector {
                 try {
                     ctr.chooseDepartment(dname);
                     System.out.println("Department with name = " + dname + " was choosed");
-                } catch (NullPointerException ex){
+                } catch (NullPointerException ex) {
                     System.out.println("Department with name: \"" + dname + "\" not found");
-                }
-                catch (Exception ex) {
-                    System.out.println(ex);
+                } catch (Exception ex) {
+                    System.out.println("Impossible to choose department " + dname);
+
+//                    System.out.println(ex);
 //                    Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 break;
@@ -170,13 +168,14 @@ public class HospitalSelector implements ClassSelector {
                 try {
                     ctr.removeDepartment(delName);
                     System.out.println("Department with name = " + delName + " was deleted");
-                } catch (NoSuchFieldException ex){
+                } catch (NoSuchFieldException ex) {
                     System.out.println("The department was not found");
-                } catch (NullPointerException ex){
+                } catch (NullPointerException ex) {
                     System.out.println("It have no departments");
-                }
-                catch (Exception ex) {
-                    System.out.println(ex);
+                } catch (Exception ex) {
+                    System.out.println("Impossible to remove department " + delName);
+
+//                    System.out.println(ex);
 //                    Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 break;
@@ -191,9 +190,9 @@ public class HospitalSelector implements ClassSelector {
                     ctr.addPatient(pName, address, passport);
                 } catch (ArrayIndexOutOfBoundsException ex) {
                     System.out.println("Too long name of patient. Try again");
-                }
-                catch (Exception ex) {
-                    System.out.println(ex);
+                } catch (Exception ex) {
+                    System.out.println("Impossible to add patient");
+//                    System.out.println(ex);
                 }
                 break;
             case 10:
@@ -202,7 +201,7 @@ public class HospitalSelector implements ClassSelector {
                         System.out.println(p.toString());
                     }
                     break;
-                }else{
+                } else {
                     System.out.println("Patients not found");
                 }
         }
