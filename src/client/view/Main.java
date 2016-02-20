@@ -6,6 +6,8 @@
 package view;
 
 import controller.Controller;
+
+import java.util.InputMismatchException;
 import java.util.LinkedList;
 import java.util.Scanner;
 import java.util.Set;
@@ -26,6 +28,7 @@ public class Main {
         controller.Controller ctr = new Controller();
         ClassSelector executor = null;
         LinkedList nowObject = ctr.nowObject;
+        String numb = new String();
         while (num != 0) {
             if (nowObject.isEmpty()||ctr.getModel().hospitals == null) {
                 executor = new ModelSelector();
@@ -37,14 +40,23 @@ public class Main {
                 executor = new EmployeeSelector();
             }
             if (!nowObject.isEmpty()) {
-                System.out.println("Текущий объект : " + nowObject.getLast());
+                System.out.println("Current object : " + nowObject.getLast());
             }
             executor.printMenu();
             System.out.println("    99: level up");
             System.out.println("    100: save model");
             System.out.println("    101: load model");
             System.out.println("    0: exit");
-            num = sc.nextInt();
+            while (true) {
+                numb = sc.next();
+                try {
+                    num = Integer.parseInt(numb);
+                    break;
+                } catch (NumberFormatException ex) {
+                    System.out.println("Error. Enter the integer value");
+                    continue;
+                }
+            }
             executor.execute(num, ctr);
             switch (num) {
                 case 99:

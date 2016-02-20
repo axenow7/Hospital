@@ -30,8 +30,8 @@ public class EmployeeSelector implements ClassSelector {
                 String name = sc.next();
                 try {
                     ctr.addVisit(name);
-                } catch (Exception ex) {
-                    System.out.println(ex);
+                } catch (NullPointerException ex) {
+                    //System.out.println(ex);
                     System.out.println("Are you want to add patient this name " + name + "? 1-yes; ");
                     if (sc.next().trim().equals("1")) {
                         System.out.println("Enter the address: ");
@@ -40,12 +40,14 @@ public class EmployeeSelector implements ClassSelector {
                         String passport = sc.next();
                         try {
                             ctr.addPatient(name, address, passport);
+                        } catch (ArrayIndexOutOfBoundsException ex1) {
+                            System.out.println("Error. Too long name of patient");
                         } catch (Exception ex1) {
-                            System.out.println(ex1.getLocalizedMessage());
+                            System.out.println("Impossible to add parient");
+//                            System.out.println(ex1);
                         }
                         break;
-                    }
-                    else {
+                    } else {
                         System.out.println("Canceled");
                         break;
                     }

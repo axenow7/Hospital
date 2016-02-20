@@ -131,7 +131,7 @@ public class Department {
                 p1.setFreeCount(p1.getFreeCount() - 1);
                 return;
             } else {
-                throw new ArrayIndexOutOfBoundsException("Empty positions " + p + " not found");
+                throw new ArrayIndexOutOfBoundsException();
             }
         }
     }

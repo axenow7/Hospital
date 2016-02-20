@@ -5,6 +5,7 @@
  */
 package model;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
@@ -34,10 +35,14 @@ public class Model {
     private IDGenerator gen = IDGenerator.getIDGeneretor();
 //    public int 
 
-    public Object addPatient(String name, String address, String passport, LinkedList nowObject) throws Exception {
-        Hospital h = (Hospital) (nowObject).get(0);
-        h.addPatient(name, address, passport, gen.getID());
-        return nowObject.get(0);
+    public Object addPatient(String name, String address, String passport, LinkedList nowObject) throws ArrayIndexOutOfBoundsException {
+        if (name.length() > 50){
+            throw new ArrayIndexOutOfBoundsException();
+        } else {
+            Hospital h = (Hospital) (nowObject).get(0);
+            h.addPatient(name, address, passport, gen.getID());
+            return nowObject.get(0);
+        }
     }
 
     public Set<Patient> getPatients(LinkedList nowObject) {
@@ -105,19 +110,23 @@ public class Model {
         return hospitals;
     }
 
-    public Set<Department> getDepartments(LinkedList nowObject) throws Exception {
+    public Set<Department> getDepartments(LinkedList nowObject) throws NullPointerException {
         Hospital h = (Hospital) nowObject.get(0);
         return h.getDepartments();
     }
 
-    public Object addDepartment(String name, LinkedList nowObject) throws Exception {
+    public Object addDepartment(String name, LinkedList nowObject) throws ArrayIndexOutOfBoundsException {
+        if (name.length() > 70) {
+            throw new ArrayIndexOutOfBoundsException();
+        } else{
         Hospital h = (Hospital) (nowObject).get(0);
         Department d = new Department(gen.getID(), name, h);
         h.addDepartment(d);
         return d;
+        }
     }
 
-    public Patient getPatientByName(String name, LinkedList nowObject) throws Exception {
+    public Patient getPatientByName(String name, LinkedList nowObject) throws ArrayIndexOutOfBoundsException, NullPointerException {
         Hospital h = (Hospital)nowObject.get(0);
         if (h.getPatients().size() > 0) {
             for (Patient p : h.getPatients()) {
@@ -126,10 +135,10 @@ public class Model {
                 }
             }
         }
-        throw new Exception("Patient with name " + name + " not found");
+        throw new NullPointerException("Patient with name " + name + " not found");
     }
 
-    public Object addVisit(String pName, LinkedList nowObject) throws Exception {
+    public Object addVisit(String pName, LinkedList nowObject) throws ArrayIndexOutOfBoundsException, NullPointerException {
         Employee e = (Employee) nowObject.get(2);
         Patient p = getPatientByName(pName, nowObject);
 //        Visit v = new Visit(gen.getID(), p, e);
@@ -190,7 +199,7 @@ public class Model {
         return now;
     }
 
-    public Object addHospital(String name, String INN, String date) throws Exception {
+    public Object addHospital(String name, String INN, String date) throws ParseException, IllegalArgumentException {
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
         Date d = sdf.parse(date);
         Hospital h1 = new Hospital(gen.getID(), name, INN, d);
@@ -199,35 +208,33 @@ public class Model {
         }
         if (hospitals.contains(h1)) {
 //            System.err.println("This hospital already exists");
-            throw new Exception("This hospital already exists");
+            throw new IllegalArgumentException("This hospital already exists ");
         } else {
             hospitals.add(h1);
             return h1;
         }
     }
 
-    public Hospital getHospitalByName(String name) throws Exception {
+    public Hospital getHospitalByName(String name) throws NullPointerException {
         for (Hospital h : hospitals) {
             if (h.getName().equals(name)) {
                 return h;
             }
         }
-        throw new Exception("Hospital with name: " + name + " not exists");
+        throw new NullPointerException();
     }
 
-    public Object removeHospital(String name, LinkedList nowObject) throws Exception {
+    public Object removeHospital(String name, LinkedList nowObject) throws ArrayIndexOutOfBoundsException {
         Hospital now = (Hospital) (nowObject).get(0);
         if (hospitals.size() == 1) {
-            throw new Exception("Can't delete last hospital");
+            throw new ArrayIndexOutOfBoundsException();
         }
         if (now.equals(this.getHospitalByName(name))) {
             hospitals.remove(getHospitalByName(name));
             nowObject.clear();
              nowObject.add(hospitals.toArray()[0]);
-            System.out.println("Hospital has been removed succesful");
         } else {
             hospitals.remove(getHospitalByName(name));
-            System.out.println("Hospital has been removed succesful");
         }
         return nowObject;
     }
@@ -242,16 +249,16 @@ public class Model {
         throw new Exception("Employee with name " + name + " not found in this department");
     }
 
-    public Object chooseDepartment(String name, LinkedList nowObject) throws Exception {
+    public Object chooseDepartment(String name, LinkedList nowObject) throws NullPointerException {
         Hospital now = (Hospital)(nowObject).get(0);
 
         if (now.getDepartmentByName(name) == null) {
-            throw new Exception("Department with name: " + name + " not found");
+            throw new NullPointerException();
         }
         return now.getDepartmentByName(name);
     }
 
-    public Object chooseHospital(String name, LinkedList nowObject) throws Exception {
+    public Object chooseHospital(String name, LinkedList nowObject) throws NullPointerException {
 //        if (nowObject instanceof Hospital) {
         return this.getHospitalByName(name);
 
